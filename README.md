@@ -8,10 +8,9 @@ Enquiry links open the visitor's email application addressed to zahmediaofficial
 
 ## Photography
 
-The initial photographs are licensed illustrative stock, explicitly labelled on the website. Replace `dist/assets/wedding.jpg`, `event.jpg` and `portrait.jpg` with approved ZAH Media work before representing them as a portfolio. Update the alt text, image labels and footer credits at the same time.
+The wedding photograph is supplied by ZAH Media (DSC_0470.jpg), optimized to 2400 pixels wide for the website. Event and portrait photographs remain labelled illustrative stock. Replace their assets and update the corresponding alt text, labels and credits when adding approved ZAH Media work.
 
 Stock sources (Unsplash License, https://unsplash.com/license):
-- Lauren Mitchell: https://unsplash.com/photos/a-bride-and-groom-holding-hands-and-smiling-glouLzM1PMg
 - Danny Howe: https://unsplash.com/photos/people-gathering-on-concert-field-bn-D2bCvpik
 - Polina Kuzovkova: https://unsplash.com/photos/a-smiling-woman-poses-in-a-bright-studio-bu_boI0bycw
 
