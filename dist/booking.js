@@ -1,5 +1,4 @@
 const form = document.querySelector('#booking-form');
-const statusBox = document.querySelector('#form-status');
 const submitButton = form.querySelector('.submit-button');
 const setHidden = (name, value) => { form.elements.namedItem(name).value = value || ''; };
 const setDateParts = (prefix, value) => {
@@ -22,10 +21,5 @@ form.addEventListener('submit', event => {
   submitButton.disabled = true;
   submitButton.textContent = 'Sending…';
   form.submit();
-  window.setTimeout(() => {
-    statusBox.hidden = false;
-    statusBox.focus();
-    submitButton.textContent = 'Request sent';
-  }, 900);
 });
 
