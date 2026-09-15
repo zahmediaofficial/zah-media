@@ -1,0 +1,14 @@
+{
+  "introduction": "Portraits for milestones, new chapters, and the simple pleasure of showing up as yourself.",
+  "note": "This gallery is ready for ZAH Media portraits. The current image is illustrative while the portfolio grows.",
+  "photos": [
+    {
+      "image": "/assets/portrait.jpg",
+      "alt": "A woman seated for a studio portrait — illustrative portrait photography",
+      "caption": "Illustrative stock photography",
+      "credit": "Polina Kuzovkova / Unsplash",
+      "illustrative": true
+    }
+  ]
+}
+

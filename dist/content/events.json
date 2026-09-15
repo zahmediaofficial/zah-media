@@ -1,0 +1,14 @@
+{
+  "introduction": "Celebrations, performances, and everything happening between the big moments.",
+  "note": "This gallery is ready for ZAH Media event photographs. The current image is illustrative while the portfolio grows.",
+  "photos": [
+    {
+      "image": "/assets/event.jpg",
+      "alt": "A crowd celebrating under confetti — illustrative event photography",
+      "caption": "Illustrative stock photography",
+      "credit": "Danny Howe / Unsplash",
+      "illustrative": true
+    }
+  ]
+}
+

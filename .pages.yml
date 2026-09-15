@@ -1,0 +1,178 @@
+media:
+  - name: photos
+    label: Website photos
+    input: dist/assets
+    output: /assets
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+
+content:
+  - name: home
+    label: Home page
+    type: file
+    path: dist/content/home.json
+    format: json
+    fields:
+      - name: hero_intro
+        label: Hero introduction
+        type: text
+        required: true
+      - name: about_intro
+        label: About preview
+        type: text
+        required: true
+
+  - name: about
+    label: About page
+    type: file
+    path: dist/content/about.json
+    format: json
+    fields:
+      - name: lead
+        label: Opening line
+        type: text
+        required: true
+      - name: story_one
+        label: Our purpose — first paragraph
+        type: text
+        required: true
+      - name: story_two
+        label: Our purpose — second paragraph
+        type: text
+        required: true
+
+  - name: weddings
+    label: Wedding gallery
+    type: file
+    path: dist/content/weddings.json
+    format: json
+    fields:
+      - name: introduction
+        label: Gallery introduction
+        type: text
+        required: true
+      - name: note
+        label: Gallery closing message
+        type: text
+        required: true
+      - name: photos
+        label: Photos (first photo also appears on Home)
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{caption} ({index})"
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            required: true
+            options:
+              media: photos
+          - name: alt
+            label: Description for visitors using a screen reader
+            type: text
+            required: true
+          - name: caption
+            label: Caption
+            type: string
+            required: true
+          - name: credit
+            label: Photographer credit
+            type: string
+            required: true
+          - name: illustrative
+            label: Illustrative or stock photo?
+            type: boolean
+
+  - name: events
+    label: Event gallery
+    type: file
+    path: dist/content/events.json
+    format: json
+    fields:
+      - name: introduction
+        label: Gallery introduction
+        type: text
+        required: true
+      - name: note
+        label: Gallery closing message
+        type: text
+        required: true
+      - name: photos
+        label: Photos (first photo also appears on Home)
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{caption} ({index})"
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            required: true
+            options:
+              media: photos
+          - name: alt
+            label: Description for visitors using a screen reader
+            type: text
+            required: true
+          - name: caption
+            label: Caption
+            type: string
+            required: true
+          - name: credit
+            label: Photographer credit
+            type: string
+            required: true
+          - name: illustrative
+            label: Illustrative or stock photo?
+            type: boolean
+
+  - name: portraits
+    label: Portrait gallery
+    type: file
+    path: dist/content/portraits.json
+    format: json
+    fields:
+      - name: introduction
+        label: Gallery introduction
+        type: text
+        required: true
+      - name: note
+        label: Gallery closing message
+        type: text
+        required: true
+      - name: photos
+        label: Photos (first photo also appears on Home)
+        type: object
+        list:
+          min: 1
+          collapsible:
+            collapsed: true
+            summary: "{caption} ({index})"
+        fields:
+          - name: image
+            label: Photo
+            type: image
+            required: true
+            options:
+              media: photos
+          - name: alt
+            label: Description for visitors using a screen reader
+            type: text
+            required: true
+          - name: caption
+            label: Caption
+            type: string
+            required: true
+          - name: credit
+            label: Photographer credit
+            type: string
+            required: true
+          - name: illustrative
+            label: Illustrative or stock photo?
+            type: boolean
+
