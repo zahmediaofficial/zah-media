@@ -9,3 +9,11 @@
 /* Hold the focus sequence until the local script sees a visible page. */
 .intro,.intro-brand,.intro-content p,.intro::after{animation-play-state:paused}
 .intro-playing,.intro-playing .intro-brand,.intro-playing .intro-content p,.intro-playing::after{animation-play-state:running}
+/* Mobile intro uses only opacity and transform, avoiding expensive blur. */
+.intro[hidden]{display:none}
+.replay-intro{display:block;margin:1rem auto 0;padding:.6rem 1rem;min-height:44px;border:0;background:transparent;color:#a9cfff;font:inherit;font-size:.8rem;cursor:pointer}
+.replay-intro:focus-visible{outline:3px solid #8dc7ff;outline-offset:3px;border-radius:8px}
+@media(max-width:600px){.intro{height:100%;height:100dvh}.intro-content{padding:1.5rem;width:100%}.intro-brand{animation-name:mobile-brand;animation-duration:1s;filter:none;will-change:opacity,transform}.intro-content p{font-size:.7rem}.intro::after{top:calc(50% + 95px)}}
+@keyframes mobile-brand{from{opacity:0;transform:translateY(12px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+/* Reduced motion still shows the welcome card, without moving or flashing. */
+@media(prefers-reduced-motion:reduce){.intro{display:grid}.intro-brand,.intro-content p,.intro::after{opacity:1;filter:none;transform:none}.intro[hidden]{display:none}}
