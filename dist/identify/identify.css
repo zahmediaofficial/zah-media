@@ -5,3 +5,7 @@
 
 /* Preserve all native controls when the mobile form grows. */
 @media(max-width:600px){.form-shell iframe{clip-path:none;margin-bottom:0}}
+
+/* Hold the focus sequence until the local script sees a visible page. */
+.intro,.intro-brand,.intro-content p,.intro::after{animation-play-state:paused}
+.intro-playing,.intro-playing .intro-brand,.intro-playing .intro-content p,.intro-playing::after{animation-play-state:running}
