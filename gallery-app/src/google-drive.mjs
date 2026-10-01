@@ -26,7 +26,7 @@ export class GoogleDriveStorage extends GalleryStorage {
  async request(path,params={}){
   const url=new URL('https://www.googleapis.com/drive/v3/'+path);
   for(const [k,v] of Object.entries(params))url.searchParams.set(k,v);
-  const r=await this.fetcher(url.toString(),{headers:{Authorization:'Bearer '+await this.accessToken()},signal:AbortSignal.timeout(15000),redirect:'error'});
+  const r=await this.fetcher(url.toString(),{headers:{Authorization:'Bearer '+await this.accessToken()},signal:AbortSignal.timeout(15000),redirect:'manual'});
   if(!r.ok)throw Object.assign(new Error('Drive request unavailable'),{code:'DRIVE_ACCESS'});return r;
  }
  async metadata(id){if(!ID.test(id))throw new Error('Invalid file');return (await this.request('files/'+id,{fields:'id,name,mimeType,parents,trashed,thumbnailLink,size,capabilities(canDownload)',supportsAllDrives:'true'})).json();}
@@ -52,7 +52,7 @@ export class GoogleDriveStorage extends GalleryStorage {
    if(!file.thumbnailLink)return null;
    const url=new URL(file.thumbnailLink);
    if(url.protocol!=='https:'||!(url.hostname.endsWith('.googleusercontent.com')||url.hostname==='lh3.google.com'))throw new Error('Invalid thumbnail host');
-   const r=await this.fetcher(url.toString(),{headers:{Authorization:'Bearer '+await this.accessToken()},redirect:'error',signal:AbortSignal.timeout(15000)});
+   const r=await this.fetcher(url.toString(),{headers:{Authorization:'Bearer '+await this.accessToken()},redirect:'manual',signal:AbortSignal.timeout(15000)});
    if(!r.ok)throw new Error('Thumbnail unavailable');return r;
   }
   if(file.capabilities?.canDownload===false)return null;
