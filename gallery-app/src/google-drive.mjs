@@ -3,7 +3,7 @@ import {encode} from './security.mjs';
 const ID=/^[A-Za-z0-9_-]{1,200}$/;
 const image = f => ['image/jpeg','image/png','image/webp'].includes(f.mimeType) && !f.trashed;
 export class GoogleDriveStorage extends GalleryStorage {
- constructor(env,fetcher=fetch){super();this.env=env;this.fetcher=fetcher;this.token=null;}
+ constructor(env,fetcher=(...args)=>fetch(...args)){super();this.env=env;this.fetcher=(...args)=>fetcher(...args);this.token=null;}
  async accessToken(){
   let stage='credentials';
   try {
