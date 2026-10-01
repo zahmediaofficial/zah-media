@@ -1,0 +1,34 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createHandler} from '../src/worker.mjs';import {codeHash,digest} from '../src/security.mjs';import {GoogleDriveStorage} from '../src/google-drive.mjs';
+const code='1234567890abcdef.'+'A'.repeat(32);const now=Math.floor(Date.now()/1000);
+async function fixture(overrides={}){
+ const gallery={gallery_id:'1234567890abcdef',gallery_name:'Test portrait',client_name:'Fixture',drive_folder_id:'folder-a',access_code_hash:await codeHash('test-only-pepper',code),created_at:now,status:'active',expires_at:now+500,allow_downloads:1,...overrides};
+ const sessions=new Map();let calls=0,attempts=0;
+ const repo={gallery:async id=>id===gallery.gallery_id?gallery:null,session:async(h,t)=>{const s=sessions.get(h);return s?.expires_at>t?s:null;},saveSession:async(h,id,t)=>sessions.set(h,{gallery_id:id,expires_at:t}),deleteSession:async h=>sessions.delete(h),cleanup:async()=>{},attempt:async()=>++attempts<=10};
+ const storage={authorisedFolder:async()=>true,list:async()=>({files:[{id:'a',name:'001.jpg'}],nextPageToken:'next'}),file:async(folder,id)=>{calls++;return id==='a'?{id,name:'001.jpg',mimeType:'image/jpeg'}:null;},content:async()=>new Response(new Uint8Array([255,216,255]),{headers:{'Content-Type':'image/jpeg'}})};
+ const env={DB:{},ACCESS_CODE_PEPPER:'test-only-pepper',GOOGLE_SERVICE_ACCOUNT_JSON:'test dependency injected, not credentials',DRIVE_ROOT_FOLDER_ID:'test-root'};
+ const handler=createHandler({repo,storage});
+ const call=(path,options={})=>handler(new Request('https://gallery.test'+path,options),env,{waitUntil:p=>p});
+ const login=(value=code)=>call('/api/session',{method:'POST',headers:{Origin:'https://gallery.test','Content-Type':'application/json'},body:JSON.stringify({code:value})});
+ const auth=async()=>{const r=await login();assert.equal(r.status,200);return r.headers.get('Set-Cookie').split(';')[0];};
+ return {call,login,auth,gallery,storage,env,handler,get calls(){return calls;}};
+}
+test('correct code creates secure opaque cookie, no token in response',async()=>{const f=await fixture();const r=await f.login();assert.match(r.headers.get('Set-Cookie'),/Secure; HttpOnly; SameSite=Strict/);assert.deepEqual(await r.json(),{ok:true});});
+for(const [name,overrides] of [['disabled',{status:'disabled'}],['expired',{expires_at:now-1}]])test(name+' code rejected',async()=>{assert.equal((await (await fixture(overrides)).login()).status,401);});
+test('wrong and missing gallery rejected identically',async()=>{const f=await fixture();assert.equal((await f.login(code.slice(0,-1)+'B')).status,401);assert.equal((await f.login('abcdef1234567890.'+'A'.repeat(32))).status,401);});
+test('unauthenticated image denied before storage',async()=>{const f=await fixture();assert.equal((await f.call('/api/photos/a/full')).status,401);assert.equal(f.calls,0);});
+test('listing exposes only Zah routes, pagination, no folder ids',async()=>{const f=await fixture();const cookie=await f.auth();const r=await f.call('/api/photos',{headers:{Cookie:cookie}});const data=await r.json();assert.equal(data.cursor,'next');assert.equal(data.photos[0].thumbnail,'/api/photos/a/thumbnail');assert.ok(!JSON.stringify(data).includes('folder-a'));});
+test('another gallery file denied',async()=>{const f=await fixture();const cookie=await f.auth();assert.equal((await f.call('/api/photos/b/full',{headers:{Cookie:cookie}})).status,404);});
+for(const kind of ['thumbnail','full','download'])test(kind+' authorised photo streamed privately',async()=>{const f=await fixture();const cookie=await f.auth();const r=await f.call('/api/photos/a/'+kind,{headers:{Cookie:cookie}});assert.equal(r.status,200);assert.equal(r.headers.get('Cache-Control'),'no-store');assert.equal((await r.arrayBuffer()).byteLength,3);if(kind==='download')assert.match(r.headers.get('Content-Disposition'),/attachment/);});
+test('downloads disabled',async()=>{const f=await fixture({allow_downloads:0});const cookie=await f.auth();assert.equal((await f.call('/api/photos/a/download',{headers:{Cookie:cookie}})).status,403);});
+test('status revoked after login blocks existing session',async()=>{const f=await fixture();const cookie=await f.auth();f.gallery.status='disabled';assert.equal((await f.call('/api/gallery',{headers:{Cookie:cookie}})).status,401);});
+test('expired session rejected',async()=>{const f=await fixture();assert.equal((await f.call('/api/gallery',{headers:{Cookie:'__Host-zah_gallery=unknown'}})).status,401);});
+test('cross-origin login and logout refused',async()=>{const f=await fixture();assert.equal((await f.call('/api/session',{method:'POST',headers:{Origin:'https://evil.test'}})).status,403);const cookie=await f.auth();assert.equal((await f.call('/api/session',{method:'DELETE',headers:{Cookie:cookie,Origin:'https://evil.test'}})).status,403);});
+test('rate limit enforced',async()=>{const f=await fixture();for(let i=0;i<10;i++)await f.login('bad');assert.equal((await f.login()).status,429);});
+test('Drive failure returns generic error without credentials',async()=>{const f=await fixture();const cookie=await f.auth();f.storage.list=async()=>{throw new Error('sensitive upstream detail');};const r=await f.call('/api/photos',{headers:{Cookie:cookie}});assert.equal(r.status,502);assert.ok(!(await r.text()).includes('sensitive'));});
+test('outside root is rejected',async()=>{const f=await fixture();const cookie=await f.auth();f.storage.authorisedFolder=async()=>false;assert.equal((await f.call('/api/photos',{headers:{Cookie:cookie}})).status,403);});
+test('unconfigured backend fails closed',async()=>{const f=await fixture();assert.equal((await f.handler(new Request('https://gallery.test/api/gallery'),{})).status,503);});
+test('Drive adapter rejects wrong parent and unsupported image',async()=>{const s=new GoogleDriveStorage({DRIVE_ROOT_FOLDER_ID:'root'});s.metadata=async()=>({id:'b',mimeType:'image/jpeg',parents:['other']});assert.equal(await s.file('folder-a','b'),null);s.metadata=async()=>({id:'a',mimeType:'image/svg+xml',parents:['folder-a']});assert.equal(await s.file('folder-a','a'),null);});
+test('thumbnail absence never falls back to originals',async()=>{const s=new GoogleDriveStorage({});assert.equal(await s.content({id:'a'},'thumbnail'),null);});
+test('timeout is handled without leaking upstream error',async()=>{const f=await fixture();const cookie=await f.auth();f.storage.list=async()=>{throw new DOMException('timeout','TimeoutError');};assert.equal((await f.call('/api/photos',{headers:{Cookie:cookie}})).status,502);});
+test('logout invalidates token',async()=>{const f=await fixture();const cookie=await f.auth();assert.equal((await f.call('/api/session',{method:'DELETE',headers:{Cookie:cookie,Origin:'https://gallery.test'}})).status,200);assert.equal((await f.call('/api/gallery',{headers:{Cookie:cookie}})).status,401);});
