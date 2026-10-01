@@ -43,6 +43,19 @@ export function createAdminHandler(deps={}){return async(request,env,json)=>{
   await db.prepare('DELETE FROM admin_sessions WHERE token_hash=?').bind(await digest(cookie)).run();
   return json({ok:true},200,{'Set-Cookie':`${COOKIE}=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`});
  }
+ if(path==='/api/admin/links'&&['GET','POST'].includes(request.method)){
+  await db.prepare('CREATE TABLE IF NOT EXISTS studio_links (id TEXT PRIMARY KEY,title TEXT NOT NULL,url TEXT NOT NULL)').run();
+  if(request.method==='POST'){
+   const b=await readBody(request);
+   if(b.remove){if(!/^[a-f0-9]{16}$/.test(b.remove))return json({error:'Invalid link.'},400);await db.prepare('DELETE FROM studio_links WHERE id=?').bind(b.remove).run();}
+   else {const title=clean(b.title,100);let url;try{url=new URL(b.url);}catch{return json({error:'Enter a complete HTTPS link.'},400);}
+    if(!title||url.protocol!=='https:'||url.username||url.password||url.href.length>2000)return json({error:'Enter a title and HTTPS link without credentials.'},400);
+    const id=Array.from(crypto.getRandomValues(new Uint8Array(8)),v=>v.toString(16).padStart(2,'0')).join('');
+    await db.prepare('INSERT INTO studio_links VALUES (?,?,?)').bind(id,title,url.href).run();
+   }
+  }
+  return json({links:(await db.prepare('SELECT * FROM studio_links ORDER BY title').all()).results});
+ }
  if(path==='/api/admin/overview'&&request.method==='GET'){
   const galleries=await db.prepare('SELECT gallery_id,gallery_name,client_name,client_email,drive_folder_id,created_at,expires_at,status,allow_downloads FROM galleries ORDER BY created_at DESC').all();
   const registrations=await db.prepare('SELECT * FROM registrations ORDER BY registered_at DESC,submission_id DESC').all();
