@@ -3,6 +3,6 @@
   "main": "src/worker.mjs",
   "compatibility_date": "2026-09-30",
   "assets": {"directory": "./public", "binding": "ASSETS", "run_worker_first": true},
-  "vars": {"SESSION_TTL_SECONDS": "3600"}
-  // After approval, bind a D1 database as DB. No deployment ID or credentials invented here.
+  "vars": {"SESSION_TTL_SECONDS": "3600"},
+  "d1_databases": [{"binding": "DB", "database_name": "zah-gallery", "database_id": "bee198a5-cea1-4685-94b5-6c5c20b49f8a"}]
 }
