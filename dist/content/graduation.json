@@ -1,0 +1,23 @@
+{
+  "production_ready": false,
+  "booking_url": "booking/",
+  "whatsapp_number": "",
+  "og_image": "",
+  "policies": {
+    "deposit": "",
+    "locations": "",
+    "travel": "",
+    "turnaround": ""
+  },
+  "images": {
+    "hero": { "src": "", "alt": "Graduate in cap and gown", "position": "50% 30%", "width": 1440, "height": 1920 },
+    "experience": { "src": "", "alt": "Individual graduation portrait", "position": "50% 30%", "width": 1200, "height": 1600 },
+    "story1": { "src": "", "alt": "Full-length graduation portrait", "position": "50% 35%", "width": 1200, "height": 1600 },
+    "story2": { "src": "", "alt": "Close graduation portrait", "position": "50% 25%", "width": 900, "height": 1200 },
+    "story3": { "src": "", "alt": "Graduate celebrating with family", "position": "50% 40%", "width": 1440, "height": 960 },
+    "story4": { "src": "", "alt": "Graduate in academic regalia", "position": "50% 30%", "width": 900, "height": 1200 },
+    "story5": { "src": "", "alt": "Outdoor graduation portrait", "position": "50% 35%", "width": 1200, "height": 1000 },
+    "story6": { "src": "", "alt": "Graduation cap and gown detail", "position": "50% 30%", "width": 1200, "height": 1000 },
+    "final": { "src": "", "alt": "Graduation celebration", "position": "50% 40%", "width": 1440, "height": 960 }
+  }
+}
