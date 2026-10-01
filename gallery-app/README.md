@@ -1,6 +1,6 @@
 # ZAH Media private gallery — Phase 1 foundation
 
-Status: Deployed for an authorised test at https://zah-private-gallery.zahmediaofficial.workers.dev/. D1 is bound and one private test gallery is registered. Google authentication, listing all 18 uploaded photographs, all thumbnails and a full-resolution photograph are verified live. Download completion and physical mobile-browser checks remain pending. Google secrets are encrypted runtime settings. Offline tests cover authentication, authorization, expiry, revocation and Workers transport compatibility. No DNS changes.
+Status: Deployed for an authorised test at https://zah-private-gallery.zahmediaofficial.workers.dev/. D1 is bound and one private test gallery is registered. Google authentication, listing all 18 uploaded photographs, all thumbnails, full-resolution viewing and downloading an original photograph are verified live. Physical mobile-browser checks remain pending. Google secrets are encrypted runtime settings. Offline tests cover authentication, authorization, expiry, revocation and Workers transport compatibility. No DNS changes.
 
 ## Existing project and decision
 
