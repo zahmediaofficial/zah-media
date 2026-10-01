@@ -1,6 +1,13 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createHandler} from '../src/worker.mjs';import {codeHash,digest} from '../src/security.mjs';import {GoogleDriveStorage} from '../src/google-drive.mjs';
 const code='1234567890abcdef.'+'A'.repeat(32);const now=Math.floor(Date.now()/1000);
+test('Drive transport does not bind native fetch to the adapter instance',async()=>{
+ let receiver='not called';
+ const storage=new GoogleDriveStorage({},function(){receiver=this;return Promise.resolve(new Response('{}'));});
+ storage.accessToken=async()=>'fixture-token';
+ await storage.request('files');
+ assert.equal(receiver,undefined);
+});
 async function fixture(overrides={}){
  const gallery={gallery_id:'1234567890abcdef',gallery_name:'Test portrait',client_name:'Fixture',drive_folder_id:'folder-a',access_code_hash:await codeHash('test-only-pepper',code),created_at:now,status:'active',expires_at:now+500,allow_downloads:1,...overrides};
  const sessions=new Map();let calls=0,attempts=0;
