@@ -26,7 +26,11 @@ export class GoogleDriveStorage extends GalleryStorage {
  async request(path,params={}){
   const url=new URL('https://www.googleapis.com/drive/v3/'+path);
   for(const [k,v] of Object.entries(params))url.searchParams.set(k,v);
-  const r=await this.fetcher(url.toString(),{headers:{Authorization:'Bearer '+await this.accessToken()},signal:AbortSignal.timeout(15000),redirect:'manual'});
+  const authorization='Bearer '+await this.accessToken();
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),30000);
+  let r;
+  try{r=await this.fetcher(url.toString(),{headers:{Authorization:authorization},signal:controller.signal,redirect:'manual'});}
+  finally{clearTimeout(timer);}
   if(!r.ok)throw Object.assign(new Error('Drive request unavailable'),{code:'DRIVE_ACCESS'});return r;
  }
  async metadata(id){if(!ID.test(id))throw new Error('Invalid file');return (await this.request('files/'+id,{fields:'id,name,mimeType,parents,trashed,thumbnailLink,size,capabilities(canDownload)',supportsAllDrives:'true'})).json();}
