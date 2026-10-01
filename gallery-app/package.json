@@ -1,1 +1,1 @@
-{"name":"zah-private-gallery","private":true,"type":"module","scripts":{"test":"node --test","dev":"wrangler dev","code":"node scripts/create-gallery.mjs"},"devDependencies":{"wrangler":"^4.0.0"}}
+{"name":"zah-private-gallery","private":true,"type":"module","engines":{"node":">=22.13"},"scripts":{"test":"node --test","dev":"wrangler dev","code":"node scripts/create-gallery.mjs"},"devDependencies":{"wrangler":"^4.0.0"}}

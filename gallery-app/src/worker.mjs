@@ -1,5 +1,6 @@
 import {GalleryRepository} from './repository.mjs';
 import {GoogleDriveStorage} from './google-drive.mjs';
+import {createAdminHandler} from './admin.mjs';
 import {active,codeHash,digest,equal,randomToken} from './security.mjs';
 const cookie='__Host-zah_gallery';
 const secureHeaders={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"};
@@ -11,6 +12,7 @@ export function createHandler(deps={}){return async(request,env,ctx)=>{
   if(!path.startsWith('/api/')){
    const asset=await env.ASSETS.fetch(request);const headers=new Headers(asset.headers);for(const [k,v]of Object.entries(secureHeaders))headers.set(k,v);return new Response(asset.body,{status:asset.status,headers});
   }
+  if(path.startsWith('/api/admin/'))return await createAdminHandler(deps.admin)(request,env,json);
   if(!env.DB||!env.ACCESS_CODE_PEPPER||!env.GOOGLE_SERVICE_ACCOUNT_JSON||!env.DRIVE_ROOT_FOLDER_ID)return json({error:'Gallery service is not configured yet.'},503);
   const repo=deps.repo||new GalleryRepository(env.DB);const storage=deps.storage||new GoogleDriveStorage(env);const now=Math.floor(Date.now()/1000);
   if(request.method==='POST' && request.headers.get('Origin')!==url.origin)return json({error:'Request refused.'},403);
