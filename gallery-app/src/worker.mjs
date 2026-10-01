@@ -58,6 +58,7 @@ export function createHandler(deps={}){return async(request,env,ctx)=>{
   if(kind==='download')headers['Content-Disposition']="attachment; filename*=UTF-8''"+encodeURIComponent(file.name);
   return new Response(upstream.body,{headers});
  }catch(error){
+  console.error('Gallery request failed',error?.name==='TypeError'?'TypeError':'unavailable',String(error?.stack||'').split('\n').slice(1,4).map(line=>line.replace(/\?.*$/,'')).join('\n'));
   const message={GOOGLE_AUTH:'The gallery storage connection needs attention. Please contact ZAH Media.',DRIVE_ACCESS:'The gallery folder is currently unavailable. Please contact ZAH Media.'}[error?.code];
   return json({error:message||'Gallery service is temporarily unavailable. Please try again.'},502);
  }
