@@ -1,0 +1,13 @@
+{
+  "images": {
+    "hero": { "src": "https://images.pexels.com/photos/21937921/pexels-photo-21937921.jpeg", "alt": "Graduate in academic dress outdoors", "position": "50% 30%", "developmentOnly": true },
+    "experience": { "src": "https://images.pexels.com/photos/21937920/pexels-photo-21937920.jpeg", "alt": "Graduate holding a mortarboard outdoors", "position": "50% 30%", "developmentOnly": true },
+    "story1": { "src": "https://images.pexels.com/photos/21937920/pexels-photo-21937920.jpeg", "alt": "Full-length outdoor graduation portrait", "position": "50% 25%", "developmentOnly": true },
+    "story2": { "src": "https://images.pexels.com/photos/29852937/pexels-photo-29852937.jpeg", "alt": "Smiling graduate in cap and gown", "position": "50% 20%", "developmentOnly": true },
+    "story3": { "src": "https://images.pexels.com/photos/33776641/pexels-photo-33776641.jpeg", "alt": "Graduate celebrating with family in traditional attire", "position": "50% 35%", "developmentOnly": true },
+    "story4": { "src": "https://images.pexels.com/photos/7944066/pexels-photo-7944066.jpeg", "alt": "Male graduate in black cap and gown", "position": "50% 25%", "developmentOnly": true },
+    "story5": { "src": "https://images.pexels.com/photos/21937921/pexels-photo-21937921.jpeg", "alt": "Outdoor cap and gown portrait", "position": "50% 30%", "developmentOnly": true },
+    "story6": { "src": "https://images.pexels.com/photos/14395585/pexels-photo-14395585.jpeg", "alt": "Graduate wearing black academic dress", "position": "50% 25%", "developmentOnly": true },
+    "final": { "src": "https://images.pexels.com/photos/29852937/pexels-photo-29852937.jpeg", "alt": "Graduate celebrating her achievement", "position": "50% 30%", "developmentOnly": true }
+  }
+}

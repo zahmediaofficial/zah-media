@@ -7,6 +7,179 @@ media:
     rename: safe
 
 content:
+
+  - name: graduation
+    label: Graduation portraits
+    type: file
+    path: dist/content/graduation.json
+    format: json
+    fields:
+      - name: booking_url
+        label: Booking page (normally booking/)
+        type: string
+      - name: whatsapp_number
+        label: WhatsApp number (country code and digits only)
+        type: string
+      - name: og_image
+        label: Social sharing photograph
+        type: image
+        options:
+          media: photos
+      - name: policies
+        label: Frequently asked questions
+        type: object
+        fields:
+          - name: deposit
+            label: Payment needed to secure a session
+            type: text
+          - name: locations
+            label: Session locations and service area
+            type: text
+          - name: travel
+            label: Travel policy
+            type: text
+          - name: turnaround
+            label: Editing turnaround
+            type: text
+      - name: images
+        label: Graduation photographs (ZAH Media originals only)
+        type: object
+        fields:
+          - name: hero
+            label: Hero photograph
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: experience
+            label: Experience photograph
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: story1
+            label: Gallery photograph 1
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: story2
+            label: Gallery photograph 2
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: story3
+            label: Gallery photograph 3
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: story4
+            label: Gallery photograph 4
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: story5
+            label: Gallery photograph 5
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: story6
+            label: Gallery photograph 6
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
+          - name: final
+            label: Closing photograph
+            type: object
+            fields:
+              - name: src
+                label: Photograph
+                type: image
+                options:
+                  media: photos
+              - name: alt
+                label: Screen reader description
+                type: string
+              - name: position
+                label: Crop position (for example 50% 30%)
+                type: string
   - name: home
     label: Home page
     type: file
@@ -175,4 +348,5 @@ content:
           - name: illustrative
             label: Illustrative or stock photo?
             type: boolean
+
 
