@@ -5,6 +5,7 @@ const image = f => ['image/jpeg','image/png','image/webp'].includes(f.mimeType) 
 export class GoogleDriveStorage extends GalleryStorage {
  constructor(env,fetcher=fetch){super();this.env=env;this.fetcher=fetcher;this.token=null;}
  async accessToken(){
+  try {
   if(this.token && this.token.until>Date.now()+60000)return this.token.value;
   const credentials=JSON.parse(this.env.GOOGLE_SERVICE_ACCOUNT_JSON);
   const now=Math.floor(Date.now()/1000);
@@ -17,12 +18,13 @@ export class GoogleDriveStorage extends GalleryStorage {
   if(!response.ok)throw new Error('Google authentication unavailable');
   const data=await response.json();if(!data.access_token)throw new Error('Google authentication unavailable');
   this.token={value:data.access_token,until:Date.now()+data.expires_in*1000};return this.token.value;
+  } catch { throw Object.assign(new Error('Google authentication unavailable'),{code:'GOOGLE_AUTH'}); }
  }
  async request(path,params={}){
   const url=new URL('https://www.googleapis.com/drive/v3/'+path);
   for(const [k,v] of Object.entries(params))url.searchParams.set(k,v);
   const r=await this.fetcher(url,{headers:{Authorization:'Bearer '+await this.accessToken()},signal:AbortSignal.timeout(15000),redirect:'error'});
-  if(!r.ok)throw new Error('Drive request unavailable');return r;
+  if(!r.ok)throw Object.assign(new Error('Drive request unavailable'),{code:'DRIVE_ACCESS'});return r;
  }
  async metadata(id){if(!ID.test(id))throw new Error('Invalid file');return (await this.request('files/'+id,{fields:'id,name,mimeType,parents,trashed,thumbnailLink,size,capabilities(canDownload)',supportsAllDrives:'true'})).json();}
  async authorisedFolder(folder){
