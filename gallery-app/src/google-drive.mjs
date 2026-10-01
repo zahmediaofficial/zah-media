@@ -5,6 +5,7 @@ const image = f => ['image/jpeg','image/png','image/webp'].includes(f.mimeType) 
 export class GoogleDriveStorage extends GalleryStorage {
  constructor(env,fetcher=fetch){super();this.env=env;this.fetcher=fetcher;this.token=null;}
  async accessToken(){
+  let stage='credentials';
   try {
   if(this.token && this.token.until>Date.now()+60000)return this.token.value;
   const credentials=JSON.parse(this.env.GOOGLE_SERVICE_ACCOUNT_JSON);
@@ -12,13 +13,15 @@ export class GoogleDriveStorage extends GalleryStorage {
   const header=encode(new TextEncoder().encode(JSON.stringify({alg:'RS256',typ:'JWT'})));
   const payload=encode(new TextEncoder().encode(JSON.stringify({iss:credentials.client_email,scope:'https://www.googleapis.com/auth/drive.readonly',aud:'https://oauth2.googleapis.com/token',iat:now,exp:now+3600})));
   const raw=credentials.private_key.replace(/-----[^-]+-----/g,'').replace(/\s/g,'');
+  stage='private-key';
   const key=await crypto.subtle.importKey('pkcs8',Uint8Array.from(atob(raw),c=>c.charCodeAt(0)),{name:'RSASSA-PKCS1-v1_5',hash:'SHA-256'},false,['sign']);
   const assertion=header+'.'+payload+'.'+encode(await crypto.subtle.sign('RSASSA-PKCS1-v1_5',key,new TextEncoder().encode(header+'.'+payload)));
+  stage='token-request';
   const response=await this.fetcher('https://oauth2.googleapis.com/token',{method:'POST',body:new URLSearchParams({grant_type:'urn:ietf:params:oauth:grant-type:jwt-bearer',assertion}),signal:AbortSignal.timeout(12000)});
-  if(!response.ok)throw new Error('Google authentication unavailable');
+  if(!response.ok){stage='token-rejected';throw new Error('Google authentication unavailable');}
   const data=await response.json();if(!data.access_token)throw new Error('Google authentication unavailable');
   this.token={value:data.access_token,until:Date.now()+data.expires_in*1000};return this.token.value;
-  } catch { throw Object.assign(new Error('Google authentication unavailable'),{code:'GOOGLE_AUTH'}); }
+  } catch { console.error('Gallery Google authentication failed at '+stage);throw Object.assign(new Error('Google authentication unavailable'),{code:'GOOGLE_AUTH'}); }
  }
  async request(path,params={}){
   const url=new URL('https://www.googleapis.com/drive/v3/'+path);
