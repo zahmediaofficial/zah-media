@@ -1,13 +1,58 @@
 {
   "images": {
-    "hero": { "src": "https://images.pexels.com/photos/21937921/pexels-photo-21937921.jpeg", "alt": "Graduate in academic dress outdoors", "position": "50% 30%", "developmentOnly": true },
-    "experience": { "src": "https://images.pexels.com/photos/21937920/pexels-photo-21937920.jpeg", "alt": "Graduate holding a mortarboard outdoors", "position": "50% 30%", "developmentOnly": true },
-    "story1": { "src": "https://images.pexels.com/photos/21937920/pexels-photo-21937920.jpeg", "alt": "Full-length outdoor graduation portrait", "position": "50% 25%", "developmentOnly": true },
-    "story2": { "src": "https://images.pexels.com/photos/29852937/pexels-photo-29852937.jpeg", "alt": "Smiling graduate in cap and gown", "position": "50% 20%", "developmentOnly": true },
-    "story3": { "src": "https://images.pexels.com/photos/33776641/pexels-photo-33776641.jpeg", "alt": "Graduate celebrating with family in traditional attire", "position": "50% 35%", "developmentOnly": true },
-    "story4": { "src": "https://images.pexels.com/photos/7944066/pexels-photo-7944066.jpeg", "alt": "Male graduate in black cap and gown", "position": "50% 25%", "developmentOnly": true },
-    "story5": { "src": "https://images.pexels.com/photos/21937921/pexels-photo-21937921.jpeg", "alt": "Outdoor cap and gown portrait", "position": "50% 30%", "developmentOnly": true },
-    "story6": { "src": "https://images.pexels.com/photos/14395585/pexels-photo-14395585.jpeg", "alt": "Graduate wearing black academic dress", "position": "50% 25%", "developmentOnly": true },
-    "final": { "src": "https://images.pexels.com/photos/29852937/pexels-photo-29852937.jpeg", "alt": "Graduate celebrating her achievement", "position": "50% 30%", "developmentOnly": true }
+    "hero": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/1605759247663-YRGNJ9X9RZIYB2A2NQMS/Image%2B11-2-20%2Bat%2B11.10%2BPM.jpg?format=1500w",
+      "alt": "Studio graduation portrait with mortarboard and pearls",
+      "position": "50% 25%",
+      "developmentOnly": true
+    },
+    "experience": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/79455d1e-79fd-4173-9502-fd3438289561/4K8A5391-Edit.jpg?format=1500w",
+      "alt": "Graduate kneeling in cap and gown against a dark studio backdrop",
+      "position": "50% 30%",
+      "developmentOnly": true
+    },
+    "story1": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/b207defe-b3de-4674-bcdd-bf4a62b068aa/4K8A7829.jpg?format=1500w",
+      "alt": "Graduate in a satin dress holding her gown and mortarboard",
+      "position": "50% 30%",
+      "developmentOnly": true
+    },
+    "story2": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/1605759247663-YRGNJ9X9RZIYB2A2NQMS/Image%2B11-2-20%2Bat%2B11.10%2BPM.jpg?format=1500w",
+      "alt": "Studio graduation portrait with mortarboard and pearls",
+      "position": "50% 25%",
+      "developmentOnly": true
+    },
+    "story3": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/33ec6f78-124d-4812-b836-158a63523e59/4K8A7833.jpg?format=1500w",
+      "alt": "Graduate posing with a family member in a studio",
+      "position": "50% 30%",
+      "developmentOnly": true
+    },
+    "story5": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/2401d5d1-bcf2-44e7-b420-08cdeb6b890e/4K8A6803.jpg?format=1500w",
+      "alt": "Graduate holding a diploma on university steps",
+      "position": "50% 30%",
+      "developmentOnly": true
+    },
+    "story6": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/773941da-45d6-47e0-bcce-440abc68eb7a/4K8A0987.jpg?format=1500w",
+      "alt": "Close detail of a graduation tassel",
+      "position": "50% 35%",
+      "developmentOnly": true
+    },
+    "final": {
+      "src": "https://images.squarespace-cdn.com/content/v1/5fb5ed7b1e17bb392e186637/ba0ee7d9-395f-4f5f-a86d-72f3b7c3087d/4K8A4653_%282%29.jpg?format=1500w",
+      "alt": "Graduate smiling as she tosses her cap",
+      "position": "50% 25%",
+      "developmentOnly": true
+    },
+    "story4": {
+      "src": "https://images-pw.pixieset.com/elementfield/8bY1Gy/Peterson1307-Edit-d2b1f2af-1500.jpg",
+      "alt": "Male graduate in a tailored black suit and mortarboard, lit in profile",
+      "position": "50% 25%",
+      "developmentOnly": true
+    }
   }
 }

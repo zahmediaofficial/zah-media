@@ -38,13 +38,9 @@ The Home footer and mobile menu link to Graduation portraits. The desktop top na
 
 ## Development reference sources — never production portfolio
 
-- Lutha Dindi: https://www.pexels.com/photo/portrait-of-woman-in-graduation-21937921/ and adjacent photo 21937920 (outdoor portraits).
-- Ifeyinka Adeyemo: https://www.pexels.com/photo/joyful-graduation-portrait-of-a-black-female-student-29852937/.
-- Samuel Patrick: https://www.pexels.com/photo/smiling-family-celebrating-graduation-day-33776641/.
-- Pavel Danilyuk: https://www.pexels.com/photo/photo-of-man-wearing-black-graduation-gown-7944066/.
-- Tanya Gupta: https://www.pexels.com/photo/a-portrait-of-a-woman-in-a-black-academic-dress-14395585/.
+The revised preview uses professionally lit studio portraits, formalwear, family portraits, university steps, cap-toss movement and tassel details from [Royal Line Photography](https://www.royallinephotography.com/graduation-photography-dallas), plus a male graduate portrait from [Ardent Aesthetics Photography](https://www.ardentaestheticsphotography.com/).
 
-Reference URLs are documented for traceability, not as clearance to publish them as studio work. A few images repeat to show crop treatments; final photography should include distinct full-body, close, family, movement and detail shots from ZAH Media's own graduation sessions.
+These photographers' images are local design references, not licensed production assets or ZAH Media work. They remain outside dist and must be replaced with authorised ZAH Media photographs before publication. Source URLs are kept in dev/graduation-preview.json for traceability. No visible image credits appear in the design.
 
 ## Verification
 
