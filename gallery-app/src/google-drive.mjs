@@ -21,7 +21,7 @@ export class GoogleDriveStorage extends GalleryStorage {
   if(!response.ok){stage='token-rejected';throw new Error('Google authentication unavailable');}
   const data=await response.json();if(!data.access_token)throw new Error('Google authentication unavailable');
   this.token={value:data.access_token,until:Date.now()+data.expires_in*1000};return this.token.value;
-  } catch { console.error('Gallery Google authentication failed at '+stage);throw Object.assign(new Error('Google authentication unavailable'),{code:'GOOGLE_AUTH'}); }
+  } catch(error) { const reason=['Illegal invocation','AbortSignal.timeout is not a function'].includes(error?.message)?error.message:['TypeError','TimeoutError','AbortError'].includes(error?.name)?error.name:'unavailable';console.error('Gallery Google authentication failed at '+stage+': '+reason);throw Object.assign(new Error('Google authentication unavailable'),{code:'GOOGLE_AUTH'}); }
  }
  async request(path,params={}){
   const url=new URL('https://www.googleapis.com/drive/v3/'+path);
