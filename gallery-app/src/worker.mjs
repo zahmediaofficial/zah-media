@@ -23,10 +23,11 @@ export function createHandler(deps={}){return async(request,env,ctx)=>{
    const bucket=await codeHash(env.ACCESS_CODE_PEPPER,'ip:'+ (request.headers.get('CF-Connecting-IP')||'local'));
    if(!await repo.attempt(bucket,now))return json({error:'Too many attempts. Please wait ten minutes.'},429,{'Retry-After':'600'});
    const code=typeof input.code==='string'?input.code.trim():'';
+   const email=typeof input.email==='string'?input.email.trim().toLowerCase():'';
    const id=code.split('.')[0];const valid=/^[a-f0-9]{16}\.[A-Za-z0-9_-]{32}$/.test(code);
    const gallery=valid?await repo.gallery(id):null;
    const hash=await codeHash(env.ACCESS_CODE_PEPPER,code);
-   if(!active(gallery,now)||!equal(hash,gallery.access_code_hash))return json({error:'Code unavailable. Check your code or contact ZAH Media.'},401);
+   if(!active(gallery,now)||!equal(hash,gallery.access_code_hash)||!email||email!==gallery.client_email)return json({error:'Email or gallery code unavailable. Check both or contact ZAH Media.'},401);
    const token=randomToken();const ttl=Math.min(3600,Math.max(60,Number(env.SESSION_TTL_SECONDS)||3600));
    await repo.saveSession(await digest(token),id,Math.min(now+ttl,gallery.expires_at||Infinity));
    ctx?.waitUntil(repo.cleanup(now));

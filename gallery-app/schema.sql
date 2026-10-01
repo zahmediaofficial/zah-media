@@ -1,6 +1,6 @@
 PRAGMA foreign_keys = ON;
 CREATE TABLE IF NOT EXISTS galleries (
- gallery_id TEXT PRIMARY KEY, gallery_name TEXT NOT NULL, client_name TEXT NOT NULL,
+ gallery_id TEXT PRIMARY KEY, gallery_name TEXT NOT NULL, client_name TEXT NOT NULL, client_email TEXT,
  drive_folder_id TEXT NOT NULL, access_code_hash TEXT NOT NULL,
  created_at INTEGER NOT NULL, expires_at INTEGER,
  status TEXT NOT NULL CHECK(status IN ('active','disabled')),

@@ -25,11 +25,14 @@ async function fixture(overrides={}){
  const env={DB:{},ACCESS_CODE_PEPPER:'test-only-pepper',GOOGLE_SERVICE_ACCOUNT_JSON:'test dependency injected, not credentials',DRIVE_ROOT_FOLDER_ID:'test-root'};
  const handler=createHandler({repo,storage});
  const call=(path,options={})=>handler(new Request('https://gallery.test'+path,options),env,{waitUntil:p=>p});
- const login=(value=code)=>call('/api/session',{method:'POST',headers:{Origin:'https://gallery.test','Content-Type':'application/json'},body:JSON.stringify({code:value})});
+ gallery.client_email='client@example.com';
+ const login=(value=code,email='client@example.com')=>call('/api/session',{method:'POST',headers:{Origin:'https://gallery.test','Content-Type':'application/json'},body:JSON.stringify({code:value,email})});
  const auth=async()=>{const r=await login();assert.equal(r.status,200);return r.headers.get('Set-Cookie').split(';')[0];};
  return {call,login,auth,gallery,storage,env,handler,get calls(){return calls;}};
 }
 test('correct code creates secure opaque cookie, no token in response',async()=>{const f=await fixture();const r=await f.login();assert.match(r.headers.get('Set-Cookie'),/Secure; HttpOnly; SameSite=Strict/);assert.deepEqual(await r.json(),{ok:true});});
+test('email and code must belong to the same client',async()=>{const f=await fixture();for(const email of ['other@example.com','',null]){const r=await f.login(code,email);assert.equal(r.status,401);assert.equal(r.headers.get('Set-Cookie'),null);}assert.equal((await f.login(code,' CLIENT@EXAMPLE.COM ')).status,200);});
+test('unassigned email fails closed',async()=>{const f=await fixture();f.gallery.client_email=null;assert.equal((await f.login()).status,401);});
 for(const [name,overrides] of [['disabled',{status:'disabled'}],['expired',{expires_at:now-1}]])test(name+' code rejected',async()=>{assert.equal((await (await fixture(overrides)).login()).status,401);});
 test('wrong and missing gallery rejected identically',async()=>{const f=await fixture();assert.equal((await f.login(code.slice(0,-1)+'B')).status,401);assert.equal((await f.login('abcdef1234567890.'+'A'.repeat(32))).status,401);});
 test('unauthenticated image denied before storage',async()=>{const f=await fixture();assert.equal((await f.call('/api/photos/a/full')).status,401);assert.equal(f.calls,0);});
