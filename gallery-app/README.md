@@ -1,6 +1,6 @@
 # ZAH Media private gallery — Phase 1 foundation
 
-Status: LOCAL FOUNDATION ONLY. Not deployed, no DNS changes, no authenticated Google connection. The 20–30 real-photo pipeline remains pending Google setup and staging verification. Tests use injected fixtures, not real client photographs.
+Status: Deployed for an authorised test at https://zah-private-gallery.zahmediaofficial.workers.dev/. D1 is bound and one private test gallery is registered. Google authentication, listing all 18 uploaded photographs, all thumbnails and a full-resolution photograph are verified live. Download completion and physical mobile-browser checks remain pending. Google secrets are encrypted runtime settings. Offline tests cover authentication, authorization, expiry, revocation and Workers transport compatibility. No DNS changes.
 
 ## Existing project and decision
 
@@ -21,7 +21,7 @@ Sources: [Workers limits](https://developers.cloudflare.com/workers/platform/lim
 - `public/`: code entry, lazy thumbnail grid, modal lightbox, arrow keys, touch swipe, individual download, loading/error states.
 - `scripts/create-gallery.mjs`: local code generation and private SQL import; no admin dashboard.
 - `tests/gallery.test.mjs`: offline security and behaviour tests.
-- `wrangler.jsonc`, `package.json`, `.gitignore`: local Worker scaffold. D1 binding intentionally absent until a real database is created.
+- `wrangler.jsonc`, `package.json`, `.gitignore`: Worker configuration with the real D1 binding. `keep_vars` preserves dashboard runtime variables; version preview URLs are disabled.
 
 Gallery columns: gallery_id, gallery_name, client_name, drive_folder_id, access_code_hash, created_at (Unix seconds), expires_at (nullable Unix seconds), status (active/disabled), allow_downloads (0/1). Browser receives gallery display name, date, permissions and photo routes, never client_name or folder mapping. Sessions expire within one hour and are checked against current gallery status/expiry on every request.
 

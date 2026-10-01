@@ -8,6 +8,15 @@ test('Drive transport does not bind native fetch to the adapter instance',async(
  await storage.request('files');
  assert.equal(receiver,undefined);
 });
+test('Drive redirects fail closed using Workers-compatible manual mode',async()=>{
+ const storage=new GoogleDriveStorage({},async(url,options)=>{
+  assert.equal(typeof url,'string');assert.equal(options.redirect,'manual');
+  return new Response(null,{status:302,headers:{Location:'https://untrusted.example/'}});
+ });
+ storage.accessToken=async()=>'fixture-token';
+ await assert.rejects(storage.request('files'),{code:'DRIVE_ACCESS'});
+ await assert.rejects(storage.content({thumbnailLink:'https://lh3.googleusercontent.com/fixture'},'thumbnail'),/Thumbnail unavailable/);
+});
 async function fixture(overrides={}){
  const gallery={gallery_id:'1234567890abcdef',gallery_name:'Test portrait',client_name:'Fixture',drive_folder_id:'folder-a',access_code_hash:await codeHash('test-only-pepper',code),created_at:now,status:'active',expires_at:now+500,allow_downloads:1,...overrides};
  const sessions=new Map();let calls=0,attempts=0;
