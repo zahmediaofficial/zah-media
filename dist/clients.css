@@ -6,3 +6,6 @@
 /* Preserve original logo colours; contrast backing for white lettering. */
 .logo-stage.acropolis img,.logo-stage.nesc img{filter:none;background:#1d1d1f;border-radius:14px;padding:16px}.logo-stage.nesc img{max-width:155px}
 
+/* Light logo panels without recolouring the original artwork. */
+.logo-stage.acropolis img,.logo-stage.nesc img{background:transparent;border-radius:0;padding:0;filter:drop-shadow(0 1px 1px rgba(29,29,31,.65))}.logo-stage,.logo-stage.laudem{background:#e8e8ed}
+
