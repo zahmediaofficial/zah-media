@@ -1,0 +1,21 @@
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/dm-sans-normal-400.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:500;font-display:swap;src:url('assets/fonts/dm-sans-normal-500.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/dm-sans-normal-600.ttf') format('truetype');}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/dm-sans-normal-700.ttf') format('truetype');}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url('assets/fonts/instrument-serif-italic-400.ttf') format('truetype');}
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/instrument-serif-normal-400.ttf') format('truetype');}
+
+html body,.site-header,.site-footer{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-optical-sizing:auto}
+button,input,select,textarea{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+.site-header,.site-header *,.site-footer,.site-footer *{font-family:inherit}
+.brand,.site-header .brand,.site-footer .brand{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif}
+main h1,main h2,#project-title,.library-card strong{font-family:'Instrument Serif',Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.035em}
+main h1{line-height:1.02;letter-spacing:-.04em}
+main h2{line-height:1.08}
+.zah-home .intro h1>span{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400}
+.category-entry-card h3{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-.015em;font-size:clamp(24px,2.4vw,33px);line-height:1.14}
+.library-card strong{letter-spacing:-.02em;font-size:clamp(27px,2.7vw,39px)}
+.eyebrow,.library-category{font-family:'DM Sans',sans-serif;font-weight:500;letter-spacing:.16em}
+.intro-bottom>p,.chapter-heading>p{letter-spacing:-.015em}
+#orbit-label{font-family:'DM Sans',sans-serif}
+@media(max-width:600px){main h1{letter-spacing:-.03em}.category-entry-card h3{font-size:28px}.library-card strong{font-size:31px}}
