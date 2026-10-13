@@ -144,7 +144,7 @@
       if (!index) img.fetchPriority = 'high';
       element.append(img); track.append(element);
       const collection = collections.find(g => g.photos.some(p => p.id === photo.id));
-      const gallery = collection ? `portfolio/#collection=${collection.slug||collection.id}` : 'portfolio/';
+      const gallery = collection ? collection.path : 'portfolio/';
       const kind = photo.feature === 'people' || photo.category === 'Creative portraits' ? 'Portraits' : photo.category === 'Weddings & connection' ? 'Weddings' : photo.feature === 'moment' ? 'Live performance' : 'Events';
       return { ...photo, element, gallery, kind };
     });

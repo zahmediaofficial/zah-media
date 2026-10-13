@@ -141,7 +141,8 @@
       "height": 2000,
       "alt": "Dance headshot selected for the collection cover"
     },
-    "slug": "dance-headshots"
+    "slug": "dance-headshots",
+    "path": "portraits/dance-headshots/"
   },
   {
     "id": "wedding-1",
@@ -1189,7 +1190,8 @@
         "collection": "wedding-1"
       }
     ],
-    "slug": "a-wedding-story"
+    "slug": "a-wedding-story",
+    "path": "weddings/a-wedding-story/"
   },
   {
     "id": "anthonette-and-josiah",
@@ -1317,7 +1319,8 @@
         "collection": "anthonette-and-josiah"
       }
     ],
-    "slug": "anthonette-and-josiah"
+    "slug": "anthonette-and-josiah",
+    "path": "weddings/anthonette-and-josiah/"
   },
   {
     "id": "forged-in-fire",
@@ -1405,7 +1408,8 @@
         "collection": "forged-in-fire"
       }
     ],
-    "slug": "forged-in-fire"
+    "slug": "forged-in-fire",
+    "path": "events/forged-in-fire/"
   },
   {
     "id": "laudem-arthur-lok-jack",
@@ -1463,7 +1467,8 @@
         "collection": "laudem-arthur-lok-jack"
       }
     ],
-    "slug": "laudem-arthur-lok-jack"
+    "slug": "laudem-arthur-lok-jack",
+    "path": "events/laudem-arthur-lok-jack/"
   },
   {
     "id": "nesc-gradution-2024",
@@ -1611,7 +1616,8 @@
         "collection": "nesc-gradution-2024"
       }
     ],
-    "slug": "nesc-graduation-2024"
+    "slug": "nesc-graduation-2024",
+    "path": "events/nesc-graduation-2024/"
   },
   {
     "id": "just-the-2-of-us",
@@ -1719,7 +1725,8 @@
         "collection": "just-the-2-of-us"
       }
     ],
-    "slug": "just-the-2-of-us"
+    "slug": "just-the-2-of-us",
+    "path": "events/just-the-2-of-us/"
   },
   {
     "id": "laudem-production",
@@ -2317,7 +2324,8 @@
         "collection": "laudem-production"
       }
     ],
-    "slug": "laudem-production"
+    "slug": "laudem-production",
+    "path": "events/laudem-production/"
   },
   {
     "id": "laudem-recital",
@@ -2795,7 +2803,8 @@
         "collection": "laudem-recital"
       }
     ],
-    "slug": "laudem-recital"
+    "slug": "laudem-recital",
+    "path": "portraits/laudem-recital/"
   },
   {
     "id": "notes-of-jazz",
@@ -3023,7 +3032,8 @@
         "collection": "notes-of-jazz"
       }
     ],
-    "slug": "notes-of-jazz"
+    "slug": "notes-of-jazz",
+    "path": "events/notes-of-jazz/"
   },
   {
     "id": "laudem-christmas-pajama",
@@ -3271,7 +3281,8 @@
         "collection": "laudem-christmas-pajama"
       }
     ],
-    "slug": "laudem-christmas-portraits"
+    "slug": "laudem-christmas-portraits",
+    "path": "portraits/laudem-christmas-portraits/"
   },
   {
     "id": "candidate-2",
@@ -3339,7 +3350,8 @@
         "collection": "candidate-2"
       }
     ],
-    "slug": "prom-blue"
+    "slug": "prom-blue",
+    "path": "portraits/prom-blue/"
   },
   {
     "id": "candidate-1",
@@ -3427,7 +3439,8 @@
         "collection": "candidate-1"
       }
     ],
-    "slug": "prom-gold"
+    "slug": "prom-gold",
+    "path": "portraits/prom-gold/"
   },
   {
     "id": "laudem-cake-making",
@@ -3465,6 +3478,7 @@
         "collection": "laudem-cake-making"
       }
     ],
-    "slug": "laudem-behind-the-scenes"
+    "slug": "laudem-behind-the-scenes",
+    "path": "portfolio/laudem-behind-the-scenes/"
   }
 ]
