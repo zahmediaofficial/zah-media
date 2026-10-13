@@ -140,7 +140,8 @@
       "width": 1333,
       "height": 2000,
       "alt": "Dance headshot selected for the collection cover"
-    }
+    },
+    "slug": "dance-headshots"
   },
   {
     "id": "wedding-1",
@@ -1187,7 +1188,8 @@
         "category": "Weddings & engagements",
         "collection": "wedding-1"
       }
-    ]
+    ],
+    "slug": "a-wedding-story"
   },
   {
     "id": "anthonette-and-josiah",
@@ -1314,7 +1316,8 @@
         "category": "Weddings & engagements",
         "collection": "anthonette-and-josiah"
       }
-    ]
+    ],
+    "slug": "anthonette-and-josiah"
   },
   {
     "id": "forged-in-fire",
@@ -1401,7 +1404,8 @@
         "category": "Events & graduations",
         "collection": "forged-in-fire"
       }
-    ]
+    ],
+    "slug": "forged-in-fire"
   },
   {
     "id": "laudem-arthur-lok-jack",
@@ -1458,7 +1462,8 @@
         "category": "Events & graduations",
         "collection": "laudem-arthur-lok-jack"
       }
-    ]
+    ],
+    "slug": "laudem-arthur-lok-jack"
   },
   {
     "id": "nesc-gradution-2024",
@@ -1605,7 +1610,8 @@
         "category": "Events & graduations",
         "collection": "nesc-gradution-2024"
       }
-    ]
+    ],
+    "slug": "nesc-graduation-2024"
   },
   {
     "id": "just-the-2-of-us",
@@ -1712,7 +1718,8 @@
         "category": "Music & performance",
         "collection": "just-the-2-of-us"
       }
-    ]
+    ],
+    "slug": "just-the-2-of-us"
   },
   {
     "id": "laudem-production",
@@ -2309,7 +2316,8 @@
         "category": "Music & performance",
         "collection": "laudem-production"
       }
-    ]
+    ],
+    "slug": "laudem-production"
   },
   {
     "id": "laudem-recital",
@@ -2786,7 +2794,8 @@
         "category": "Music & performance",
         "collection": "laudem-recital"
       }
-    ]
+    ],
+    "slug": "laudem-recital"
   },
   {
     "id": "notes-of-jazz",
@@ -3013,7 +3022,8 @@
         "category": "Music & performance",
         "collection": "notes-of-jazz"
       }
-    ]
+    ],
+    "slug": "notes-of-jazz"
   },
   {
     "id": "laudem-christmas-pajama",
@@ -3260,7 +3270,8 @@
         "category": "Prom & creative portraits",
         "collection": "laudem-christmas-pajama"
       }
-    ]
+    ],
+    "slug": "laudem-christmas-portraits"
   },
   {
     "id": "candidate-2",
@@ -3327,7 +3338,8 @@
         "category": "Prom & creative portraits",
         "collection": "candidate-2"
       }
-    ]
+    ],
+    "slug": "prom-blue"
   },
   {
     "id": "candidate-1",
@@ -3414,7 +3426,8 @@
         "category": "Prom & creative portraits",
         "collection": "candidate-1"
       }
-    ]
+    ],
+    "slug": "prom-gold"
   },
   {
     "id": "laudem-cake-making",
@@ -3451,6 +3464,7 @@
         "category": "Creative projects",
         "collection": "laudem-cake-making"
       }
-    ]
+    ],
+    "slug": "laudem-behind-the-scenes"
   }
 ]
