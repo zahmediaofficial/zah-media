@@ -99,6 +99,6 @@ async function updateAbout() {
 const page = location.pathname.replace(/\/+$/, '').split('/').pop();
 const task = ['weddings', 'events', 'portraits'].includes(page)
   ? updateGallery(page)
-  : page === 'about' ? updateAbout() : document.querySelector('.hero') ? updateHome() : null;
+  : page === 'about' ? updateAbout() : (document.querySelector('.hero') || document.body.dataset.page === 'home') ? updateHome() : null;
 task?.catch(error => console.warn('Using saved page content:', error));
 
