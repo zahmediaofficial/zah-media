@@ -134,7 +134,13 @@
         "category": "Professional portraits",
         "collection": "choir"
       }
-    ]
+    ],
+    "cover": {
+      "src": "assets/13ewRKdsIIfr_kpxNIfx06ePCJ5ZAJcdZ.webp",
+      "width": 1333,
+      "height": 2000,
+      "alt": "Dance headshot selected for the collection cover"
+    }
   },
   {
     "id": "wedding-1",
