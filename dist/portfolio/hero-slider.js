@@ -10,6 +10,7 @@
   const status = document.getElementById('orbit-status');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let photos = [], position = 0, drag = null, frame = null, step = 300, selected = -1;
+  let fadeLayer = null;
   let autoTimer = null, autoPaused = reduced.matches, hovered = false, inView = false;
   function scheduleAuto() {
     clearTimeout(autoTimer);
@@ -52,22 +53,43 @@
     });
     render();
   }
-  function settle(target) {
+  function clearFade() {
     cancelAnimationFrame(frame);
-    if (reduced.matches) { position = target; render(true); scheduleAuto(); return; }
-    const from = position, started = performance.now();
+    frame = null;
+    fadeLayer?.remove();
+    fadeLayer = null;
+    track.style.opacity = '1';
+  }
+  function settle(target) {
+    clearFade();
+    if (reduced.matches || Math.abs(target - position) < .001) {
+      position = wrap(target, photos.length); render(true); scheduleAuto(); return;
+    }
+    // Hold each composition still and dissolve between them, rather than
+    // sliding differently sized photographs through the foreground.
+    fadeLayer = track.cloneNode(true);
+    fadeLayer.removeAttribute('id');
+    fadeLayer.setAttribute('aria-hidden', 'true');
+    fadeLayer.style.pointerEvents = 'none';
+    fadeLayer.style.opacity = '1';
+    stage.insertBefore(fadeLayer, track);
+    position = wrap(target, photos.length);
+    render();
+    track.style.opacity = '0';
+    const started = performance.now();
     function animate(now) {
-      const t = Math.min((now - started) / 1050, 1);
-      position = from + (target - from) * (1 - Math.pow(1 - t, 4));
-      render();
+      const t = Math.min((now - started) / 1100, 1);
+      const ease = t * t * (3 - 2 * t);
+      track.style.opacity = String(ease);
+      if (fadeLayer) fadeLayer.style.opacity = String(1 - ease);
       if (t < 1) frame = requestAnimationFrame(animate);
-      else { position = wrap(target, photos.length); frame = null; render(true); scheduleAuto(); }
+      else { clearFade(); render(true); scheduleAuto(); }
     }
     frame = requestAnimationFrame(animate);
   }
   stage.addEventListener('pointerdown', event => {
     if (event.button !== 0 || !photos.length) return;
-    cancelAnimationFrame(frame);
+    clearFade();
     clearTimeout(autoTimer);
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, start: position, lastX: event.clientX, lastTime: event.timeStamp, velocity: 0, locked: false };
     stage.setPointerCapture(event.pointerId);
@@ -124,7 +146,7 @@
   document.addEventListener('visibilitychange', scheduleAuto);
   new IntersectionObserver(entries => { inView = entries[0].isIntersecting; scheduleAuto(); }, { threshold: .2 }).observe(stage);
   new ResizeObserver(resize).observe(stage);
-  reduced.addEventListener('change', () => { cancelAnimationFrame(frame); position = Math.round(position); autoPaused = reduced.matches; render(); scheduleAuto(); });
+  reduced.addEventListener('change', () => { clearFade(); position = Math.round(position); autoPaused = reduced.matches; render(); scheduleAuto(); });
   async function load(name) {
     const response = await fetch(new URL(name, root));
     if (!response.ok) throw new Error('Photography unavailable');
@@ -157,6 +179,6 @@
     title.textContent = 'Explore the portfolio';
     stage.removeAttribute('tabindex');
   });
-  window.addEventListener('pagehide', () => { cancelAnimationFrame(frame); clearTimeout(autoTimer); });
+  window.addEventListener('pagehide', () => { clearFade(); clearTimeout(autoTimer); });
   window.addEventListener('pageshow', scheduleAuto);
 })();
