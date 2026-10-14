@@ -22,7 +22,7 @@
     "category": "Professional portraits",
     "collection": "laudem-recital",
     "feature": "people",
-    "opening": 2
+    "opening": null
   },
   {
     "id": "1WqmTeOD4ns-ora1gA8fRzB5wFL6DWZjW",
@@ -273,7 +273,7 @@
     "label": "Prom · Portraits",
     "alt": "A portrait of a woman in a gold dress beside a staircase",
     "feature": null,
-    "opening": null,
+    "opening": 2,
     "original_file": "DSC_8574.jpg",
     "source_collection": "Candidate 1"
   },
