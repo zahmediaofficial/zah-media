@@ -34,3 +34,5 @@
  .zah-home #photography .category-entry-card:nth-child(3){width:90%;margin-top:0}
  .zah-home #photography .category-entry-card>div{margin-top:20px}
 }
+/* Preserve the complete featured prom portrait, including the dress. */
+.zah-home #opening .photo:last-child img{aspect-ratio:auto;height:auto;object-fit:contain}
