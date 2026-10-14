@@ -10,6 +10,7 @@
   const status = document.getElementById('orbit-status');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let photos = [], position = 0, drag = null, frame = null, step = 300, selected = -1;
+  let pictureFade = null;
   let autoTimer = null, autoPaused = reduced.matches, hovered = false, inView = false;
   function scheduleAuto() {
     clearTimeout(autoTimer);
@@ -42,6 +43,7 @@
     if (announce) status.textContent = `Photograph ${index + 1} of ${total}. ${photos[index].label}`;
   }
   function resize() {
+    if (pictureFade) clearPictureFade();
     const width = stage.clientWidth, height = stage.clientHeight;
     const centerWidth = Math.min(390, width * .54);
     step = centerWidth * .64;
@@ -52,22 +54,55 @@
     });
     render();
   }
-  function settle(target) {
+  function clearPictureFade() {
     cancelAnimationFrame(frame);
+    frame = null;
+    pictureFade?.outgoing.remove();
+    pictureFade?.side.remove();
+    pictureFade = null;
+  }
+  function settle(target) {
+    clearPictureFade();
+    render();
     if (reduced.matches) { position = target; render(true); scheduleAuto(); return; }
     const from = position, started = performance.now();
+    const oldIndex = wrap(Math.round(from), photos.length);
+    const nextIndex = wrap(target, photos.length);
+    if (oldIndex !== nextIndex) {
+      // Only the featured photographs dissolve. The carousel itself remains
+      // visible, and its surrounding photographs retain their sliding motion.
+      const outgoing = photos[oldIndex].element.cloneNode(true);
+      const side = photos[nextIndex].element.cloneNode(true);
+      for (const ghost of [outgoing, side]) {
+        ghost.setAttribute('aria-hidden', 'true');
+        ghost.style.pointerEvents = 'none';
+        stage.append(ghost);
+      }
+      outgoing.style.zIndex = '40';
+      pictureFade = { outgoing, side, incoming: photos[nextIndex].element, old: photos[oldIndex].element };
+    }
     function animate(now) {
-      const t = Math.min((now - started) / 1050, 1);
+      const t = Math.min((now - started) / 1100, 1);
+      const ease = t * t * (3 - 2 * t);
       position = from + (target - from) * (1 - Math.pow(1 - t, 4));
       render();
+      if (pictureFade) {
+        pictureFade.outgoing.style.opacity = String(1 - ease);
+        pictureFade.side.style.opacity = String(1 - ease);
+        pictureFade.old.style.opacity = String(Number(pictureFade.old.style.opacity) * ease);
+        pictureFade.incoming.style.transform = 'translate(-50%, -50%) scale(1)';
+        pictureFade.incoming.style.zIndex = '41';
+        pictureFade.incoming.style.opacity = String(ease);
+      }
       if (t < 1) frame = requestAnimationFrame(animate);
-      else { position = wrap(target, photos.length); frame = null; render(true); scheduleAuto(); }
+      else { clearPictureFade(); position = wrap(target, photos.length); render(true); scheduleAuto(); }
     }
     frame = requestAnimationFrame(animate);
   }
   stage.addEventListener('pointerdown', event => {
     if (event.button !== 0 || !photos.length) return;
-    cancelAnimationFrame(frame);
+    clearPictureFade();
+    render();
     clearTimeout(autoTimer);
     drag = { id: event.pointerId, x: event.clientX, y: event.clientY, start: position, lastX: event.clientX, lastTime: event.timeStamp, velocity: 0, locked: false };
     stage.setPointerCapture(event.pointerId);
@@ -124,7 +159,7 @@
   document.addEventListener('visibilitychange', scheduleAuto);
   new IntersectionObserver(entries => { inView = entries[0].isIntersecting; scheduleAuto(); }, { threshold: .2 }).observe(stage);
   new ResizeObserver(resize).observe(stage);
-  reduced.addEventListener('change', () => { cancelAnimationFrame(frame); position = Math.round(position); autoPaused = reduced.matches; render(); scheduleAuto(); });
+  reduced.addEventListener('change', () => { clearPictureFade(); position = Math.round(position); autoPaused = reduced.matches; render(); scheduleAuto(); });
   async function load(name) {
     const response = await fetch(new URL(name, root));
     if (!response.ok) throw new Error('Photography unavailable');
@@ -157,6 +192,6 @@
     title.textContent = 'Explore the portfolio';
     stage.removeAttribute('tabindex');
   });
-  window.addEventListener('pagehide', () => { cancelAnimationFrame(frame); clearTimeout(autoTimer); });
+  window.addEventListener('pagehide', () => { clearPictureFade(); render(); clearTimeout(autoTimer); });
   window.addEventListener('pageshow', scheduleAuto);
 })();
