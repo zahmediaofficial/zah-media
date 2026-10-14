@@ -26,3 +26,5 @@
 
 /* Layered editorial ribbon: keep images crisp and on a flat center line. */
 .showcase-track{transform-style:flat}.showcase-photo img{border-radius:6px;box-shadow:0 14px 30px -22px #1d1d1f24}
+/* Keep gallery photographs intact when hovered. */
+.photo button:hover img{transform:none}

@@ -130,7 +130,7 @@
     if (!response.ok) throw new Error('Photography unavailable');
     return response.json();
   }
-  Promise.all([load('selection.json'), load('collections.json')]).then(([all, collections]) => {
+  Promise.all([load('selection.json?v=clean-photographs'), load('collections.json?v=clean-photographs')]).then(([all, collections]) => {
     const chosen = [all.find(p => p.category === 'Creative portraits'), all.find(p => p.feature === 'people'), all.find(p => p.category === 'Weddings & connection'), all.find(p => p.label === 'Forged in Fire'), all.find(p => p.feature === 'moment'), all.find(p => p.opening === 1)].filter(Boolean);
     photos = chosen.map((photo, index) => {
       const element = document.createElement('figure');

@@ -36,3 +36,9 @@
 }
 /* Preserve the complete featured prom portrait, including the dress. */
 .zah-home #opening .photo:last-child img{aspect-ratio:auto;height:auto;object-fit:contain}
+/* Show the complete photograph: never crop faces into editorial frames. */
+.zah-home .opening .photo img,
+.zah-home .editorial-grid .photo img,
+.zah-home .pair .photo img,
+.zah-home .moment-stage .photo img{aspect-ratio:auto;height:auto;max-height:none;object-fit:contain}
+.zah-home .photo button:hover img{transform:none}
