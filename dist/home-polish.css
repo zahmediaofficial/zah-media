@@ -14,3 +14,23 @@
 .zah-home .intro-bottom .booking-cta{display:inline-flex}
 .zah-home .intro-bottom .booking-cta span{padding-left:0}
 @media(max-width:600px){.zah-home .brand-intro-links .booking-cta{align-self:stretch}.zah-home .closing .booking-cta{width:100%;max-width:320px}}
+
+/* Open, staggered photography stories: images keep their original proportions. */
+.zah-home #photography{background:#fff}
+.zah-home #photography .category-entry-grid{grid-template-columns:1.08fr .84fr 1fr;gap:clamp(24px,4vw,64px);align-items:start}
+.zah-home #photography .category-entry-card:before{display:none}
+.zah-home #photography .category-entry-card:nth-child(2){margin-top:110px}
+.zah-home #photography .category-entry-card:nth-child(3){margin-top:48px}
+.zah-home #photography .category-entry-card img{aspect-ratio:auto;height:auto;object-fit:contain;background:transparent;box-shadow:none;border-radius:8px}
+.zah-home #photography .category-entry-card>div{padding-top:8px;border-top:1px solid #c6b89f66;margin-top:24px}
+.zah-home #photography .category-entry-card h3{margin-top:8px;line-height:1.12}
+.zah-home #photography .category-entry-card p{max-width:280px}
+.zah-home #photography .category-entry-card:focus-visible{outline:2px solid #937449;outline-offset:10px;border-radius:8px}
+@media(max-width:900px){.zah-home #photography .category-entry-card:nth-child(2){margin-top:72px}.zah-home #photography .category-entry-card:nth-child(3){margin-top:32px}}
+@media(max-width:600px){
+ .zah-home #photography .category-entry-grid{grid-template-columns:1fr;gap:52px}
+ .zah-home #photography .category-entry-card{width:90%;margin-top:0}
+ .zah-home #photography .category-entry-card:nth-child(2){width:82%;margin-top:0;margin-left:auto}
+ .zah-home #photography .category-entry-card:nth-child(3){width:90%;margin-top:0}
+ .zah-home #photography .category-entry-card>div{margin-top:20px}
+}
