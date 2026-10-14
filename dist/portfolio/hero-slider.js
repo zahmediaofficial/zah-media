@@ -23,9 +23,9 @@
     photos.forEach((photo, i) => {
       const distance = wrap(i - position + total / 2, total) - total / 2;
       const depth = Math.abs(distance);
-      const scale = 1 - Math.min(depth, 1.5) * .16;
-      photo.element.style.transform = `translate(-50%, -50%) translateX(${distance * step}px) translateY(${Math.min(depth, 2) * 15}px) scale(${scale}) rotateY(${-distance * 3}deg)`;
-      photo.element.style.opacity = depth > 2 ? '0' : String(Math.max(.12, 1 - depth * .44));
+      const scale = Math.pow(.89, Math.min(depth, 3));
+      photo.element.style.transform = `translate(-50%, -50%) translateX(${distance * step}px) scale(${scale})`;
+      photo.element.style.opacity = String(Math.max(0, Math.min(1, (3.1 - depth) / .5)));
       photo.element.style.zIndex = String(10 - Math.round(depth * 3));
       photo.element.setAttribute('aria-hidden', String(i !== wrap(Math.round(position), total)));
     });
@@ -43,9 +43,10 @@
   }
   function resize() {
     const width = stage.clientWidth, height = stage.clientHeight;
-    step = Math.min(530, width * .52);
+    const centerWidth = Math.min(390, width * .54);
+    step = centerWidth * .64;
     photos.forEach(photo => {
-      const h = Math.min(height * .8, Math.min(680, width * .74) / (photo.width / photo.height));
+      const h = Math.min(height * .86, Math.min(540, width * .72) / (photo.width / photo.height));
       photo.element.style.width = `${h * photo.width / photo.height}px`;
       photo.element.style.height = `${h}px`;
     });
@@ -56,7 +57,7 @@
     if (reduced.matches) { position = target; render(true); scheduleAuto(); return; }
     const from = position, started = performance.now();
     function animate(now) {
-      const t = Math.min((now - started) / 780, 1);
+      const t = Math.min((now - started) / 1050, 1);
       position = from + (target - from) * (1 - Math.pow(1 - t, 4));
       render();
       if (t < 1) frame = requestAnimationFrame(animate);
