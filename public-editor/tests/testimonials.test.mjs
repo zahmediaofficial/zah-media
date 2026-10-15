@@ -9,3 +9,12 @@ test('moderation requires authentication and cross-origin submissions are refuse
 test('project-photo matching, consent and non-clickable handles are validated',()=>{assert.throws(()=>validateReview({...input,photoId:'someone-else'},collections));assert.throws(()=>validateReview({...input,consent:false},collections));assert.throws(()=>validateReview({...input,handle:'https://attacker.example'},collections));assert.throws(()=>validateReview({...input,projectId:'private-client-gallery'},collections));const r=validateReview({...input,projectId:'service-graduation',photoId:''},collections);assert.equal(r.photo,null);});
 test('rate limiting bounds repeated submissions',async()=>{const f=fixture();for(let n=0;n<5;n++)assert.equal((await reviewHandler(request('/api/testimonials',input),f.env,f.deps)).status,201);assert.equal((await reviewHandler(request('/api/testimonials',input),f.env,f.deps)).status,429);});
 test('oversized submissions are rejected before storage',async()=>{const f=fixture();assert.equal((await reviewHandler(request('/api/testimonials',{...input,text:'x'.repeat(9000)}),f.env,f.deps)).status,413);assert.equal([...f.values.keys()].filter(k=>k.startsWith('testimonial:record:')).length,0);});
+
+test('Cloudflare-compatible upstream requests refuse redirects for submissions and moderation',async()=>{
+ const f=fixture();let calls=0;
+ const deps={...f.deps,authenticated:true,fetcher:async(url,options)=>{calls++;assert.equal(options.redirect,'manual');return new Response(null,{status:302,headers:{Location:'https://other.example/'}});}};
+ assert.equal((await reviewHandler(request('/api/testimonials',input),f.env,deps)).status,503);
+ assert.equal([...f.values.keys()].filter(k=>k.startsWith('testimonial:record:')).length,0);
+ const admin=await reviewHandler(request('/api/reviews'),f.env,deps);
+ assert.equal(admin.status,200);assert.deepEqual((await admin.json()).projects,[]);assert.equal(calls,2);
+});

@@ -34,14 +34,14 @@ export async function reviewHandler(request,env,{authenticated=false,fetcher=fet
   const input=await smallBody(request);if(input.website)return response({ok:true},202);
   const bucket='testimonial:rate:'+await hash(request.headers.get('CF-Connecting-IP')||'local');const count=Number(await env.DRAFTS.get(bucket)||0);
   if(count>=5)return response({error:'Please try again in an hour.'},429);await env.DRAFTS.put(bucket,String(count+1),{expirationTtl:3600});
-  const upstream=await fetcher(ROOT+'/portfolio/collections.json',{redirect:'error'});if(!upstream.ok)return response({error:'Projects are temporarily unavailable.'},503);
+  const upstream=await fetcher(ROOT+'/portfolio/collections.json',{redirect:'manual'});if(!upstream.ok)return response({error:'Projects are temporarily unavailable.'},503);
   const r={...validateReview(input,await upstream.json()),id:crypto.randomUUID(),created:new Date().toISOString(),status:'pending'};
   await env.DRAFTS.put(recordPrefix+r.id,JSON.stringify(r));return response({ok:true},201);
  }
  if(!authenticated)return response({error:'Please sign in to your visual studio.'},401);
  if(path==='/api/reviews'&&request.method==='GET'){
   const cursor=url.searchParams.get('cursor');const list=await env.DRAFTS.list({prefix:recordPrefix,limit:100,...(cursor?{cursor}:{})});
-  const upstream=await fetcher(ROOT+'/portfolio/collections.json',{redirect:'error'});const projects=upstream.ok?(await upstream.json()).map(g=>({slug:g.slug,title:g.title})):[];
+  const upstream=await fetcher(ROOT+'/portfolio/collections.json',{redirect:'manual'});const projects=upstream.ok?(await upstream.json()).map(g=>({slug:g.slug,title:g.title})):[];
   return response({projects,reviews:(await Promise.all(list.keys.map(k=>env.DRAFTS.get(k.name,'json')))).filter(Boolean),cursor:list.list_complete?null:list.cursor});
  }
  if(path==='/api/reviews'&&request.method==='POST'){
