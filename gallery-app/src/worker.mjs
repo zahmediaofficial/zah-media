@@ -1,3 +1,4 @@
+import {clientPrints} from './prints.mjs';
 import {GalleryRepository} from './repository.mjs';
 import {GoogleDriveStorage} from './google-drive.mjs';
 import {createAdminHandler} from './admin.mjs';
@@ -42,6 +43,7 @@ export function createHandler(deps={}){return async(request,env,ctx)=>{
    if(request.headers.get('Origin')!==url.origin)return json({error:'Request refused.'},403);
    await repo.deleteSession(await digest(token));return json({ok:true},200,{'Set-Cookie':`${cookie}=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`});
   }
+  if(path==='/api/prints'){if(!await storage.authorisedFolder(gallery.drive_folder_id))return json({error:'Gallery unavailable.'},403);return clientPrints(request,env,gallery,storage,json);}
   if(request.method!=='GET')return json({error:'Method not allowed.'},405);
   if(!await storage.authorisedFolder(gallery.drive_folder_id))return json({error:'Gallery is unavailable. Please contact ZAH Media.'},403);
   if(path==='/api/gallery')return json({name:gallery.gallery_name,created_at:gallery.created_at,allow_downloads:!!gallery.allow_downloads});

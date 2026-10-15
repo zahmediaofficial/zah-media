@@ -33,7 +33,7 @@ export class GoogleDriveStorage extends GalleryStorage {
   finally{clearTimeout(timer);}
   if(!r.ok)throw Object.assign(new Error('Drive request unavailable'),{code:'DRIVE_ACCESS'});return r;
  }
- async metadata(id){if(!ID.test(id))throw new Error('Invalid file');return (await this.request('files/'+id,{fields:'id,name,mimeType,parents,trashed,thumbnailLink,size,capabilities(canDownload)',supportsAllDrives:'true'})).json();}
+ async metadata(id){if(!ID.test(id))throw new Error('Invalid file');return (await this.request('files/'+id,{fields:'id,name,mimeType,parents,trashed,thumbnailLink,size,capabilities(canDownload),imageMediaMetadata(width,height,rotation)',supportsAllDrives:'true'})).json();}
  async authorisedFolder(folder){
   // A registered folder must be beneath the dedicated root, never the root itself.
   if(folder===this.env.DRIVE_ROOT_FOLDER_ID)return false;

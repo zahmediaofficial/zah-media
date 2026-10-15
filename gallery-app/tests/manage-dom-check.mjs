@@ -1,0 +1,12 @@
+import {readFileSync} from 'node:fs';
+import vm from 'node:vm';
+import assert from 'node:assert/strict';
+const html=readFileSync(new URL('../public/manage/index.html',import.meta.url),'utf8');
+const script=readFileSync(new URL('../public/manage/manage.js',import.meta.url),'utf8');
+new vm.Script(script);
+const ids=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));
+const used=[...script.matchAll(/\$\(['"]([^'"]+)['"]\)/g)].map(m=>m[1]);
+assert.deepEqual(used.filter(id=>!ids.has(id)),[]);
+assert(ids.has('print-orders'));
+assert(ids.has('crop-canvas'));
+console.log('Management JavaScript syntax and DOM references: PASS');

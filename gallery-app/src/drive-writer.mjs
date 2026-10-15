@@ -1,0 +1,18 @@
+// Personal Google Drive writes use owner OAuth; never the gallery reader service account.
+export class DriveWriter{
+ constructor(env,fetcher=(...args)=>globalThis.fetch(...args)){this.env=env;this.fetcher=(...args)=>fetcher(...args);}
+ async token(){if(this.access)return this.access;const c=JSON.parse(this.env.GOOGLE_DRIVE_USER_OAUTH_JSON);const r=await this.fetcher('https://oauth2.googleapis.com/token',{method:'POST',body:new URLSearchParams({client_id:c.client_id,client_secret:c.client_secret,refresh_token:c.refresh_token,grant_type:'refresh_token'}),signal:AbortSignal.timeout(15000)});if(!r.ok)throw Object.assign(Error('Drive write authorization unavailable'),{code:'PRINT_AUTH'});const t=await r.json();if(!t.access_token)throw Error('Drive write authorization unavailable');return this.access=t.access_token;}
+ async request(path,options={}){const r=await this.fetcher('https://www.googleapis.com/drive/v3/'+path,{...options,headers:{...options.headers,Authorization:'Bearer '+await this.token()},redirect:'manual',signal:AbortSignal.timeout(30000)});if(!r.ok)throw Error('Drive write unavailable');return r.json();}
+ async folder(name,parent){return (await this.request('files?fields=id',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,mimeType:'application/vnd.google-apps.folder',parents:[parent]})})).id;}
+ async reserve(){return (await this.request('files/generateIds?count=1&space=drive')).ids[0];}
+ async metadata(id){return this.request('files/'+encodeURIComponent(id)+'?fields=id,parents,mimeType,trashed');}
+ async save(id,name,parent,bytes,mime='image/jpeg'){
+  let existing=false;const lookup=await this.fetcher('https://www.googleapis.com/drive/v3/files/'+id+'?fields=id,parents,mimeType',{headers:{Authorization:'Bearer '+await this.token()},redirect:'manual',signal:AbortSignal.timeout(15000)});
+  if(lookup.ok){const f=await lookup.json();if(!f.parents?.includes(parent)||f.mimeType!==mime)throw Error('Output folder mismatch');existing=true;}else if(lookup.status!==404)throw Error('Drive output unavailable');
+  const boundary='zah-'+crypto.randomUUID(),meta=existing?{name}:{id,name,parents:[parent]};
+  const payload=new Blob([`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n--${boundary}\r\nContent-Type: ${mime}\r\n\r\n`,bytes,`\r\n--${boundary}--`]);
+  const r=await this.fetcher('https://www.googleapis.com/upload/drive/v3/files'+(existing?'/'+id:'')+'?uploadType=multipart&fields=id',{method:existing?'PATCH':'POST',headers:{Authorization:'Bearer '+await this.token(),'Content-Type':'multipart/related; boundary='+boundary},body:payload,redirect:'manual',signal:AbortSignal.timeout(60000)});if(!r.ok)throw Error('Drive save unavailable');return (await r.json()).id;
+ }
+ async copy(source,key,name,parent){const q=`'${parent}' in parents and trashed = false and appProperties has { key='zah_print_key' and value='${key}' }`;const found=await this.request('files?fields=files(id)&q='+encodeURIComponent(q));if(found.files?.length)return found.files[0].id;return (await this.request('files/'+source+'/copy?fields=id',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,parents:[parent],appProperties:{zah_print_key:key}})})).id;}
+}
+export function jpegDimensions(b){if(b[0]!==255||b[1]!==216)return null;let p=2;while(p+4<b.length){if(b[p++]!==255)return null;while(b[p]===255)p++;const marker=b[p++];if(marker===217||marker===218)return null;if(marker===216||marker===1)continue;const n=b[p]*256+b[p+1];if(n<2||p+n>b.length)return null;if([192,193,194].includes(marker)&&n>=8)return {height:b[p+3]*256+b[p+4],width:b[p+5]*256+b[p+6]};p+=n;}return null;}

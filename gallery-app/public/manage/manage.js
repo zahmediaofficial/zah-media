@@ -1,6 +1,6 @@
 const $=id=>document.getElementById(id);let state={galleries:[],registrations:[]};
 function notice(message){$('notice').textContent=message;}
-function lock(){ $('dashboard').hidden=true;$('login').hidden=false;$('gallery-form').reset();$('client-access').value='';$('code-result').hidden=true;state={galleries:[],registrations:[]};$('registrations').replaceChildren();$('galleries').replaceChildren();}
+function lock(){ $('print-orders').replaceChildren();$('crop-editor').hidden=true;if(typeof clearPrintState==='function')clearPrintState();$('dashboard').hidden=true;$('login').hidden=false;$('gallery-form').reset();$('client-access').value='';$('code-result').hidden=true;state={galleries:[],registrations:[]};$('registrations').replaceChildren();$('galleries').replaceChildren();}
 async function api(path,options={}){const r=await fetch('/api/admin/'+path,{...options,credentials:'same-origin'});let data;try{data=await r.json();}catch{throw new Error('Management is temporarily unavailable.');}if(!r.ok){if(r.status===401)lock();throw new Error(data.error||'Please try again.');}return data;}
 const post=(path,body)=>api(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
 function element(tag,text,className){const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;}
@@ -22,7 +22,7 @@ function render(){
  const actions=element('div',undefined,'row-actions');actions.append(button('Save settings',async()=>{await post(`galleries/${g.gallery_id}/settings`,{status:status.value,expires_at:expiryValue(expires.value),allow_downloads:download.checked});await load();notice('Settings saved. Existing client sessions were closed.');}),button('Replace access code',async()=>{if(!confirm('Replace this client’s code? Their old code and current sessions will stop working.'))return;const r=await post(`galleries/${g.gallery_id}/rotate`,{});showCode(r.code,g.client_email);notice('New code created. Copy it before closing.');}));row.append(actions);$('galleries').append(row);
  }if(!state.galleries.length)$('galleries').append(element('p','No galleries created yet.'));
 }
-async function load(){state=await api('overview');$('login').hidden=true;$('dashboard').hidden=false;render();await loadLinks();}
+async function load(){state=await api('overview');$('login').hidden=true;$('dashboard').hidden=false;render();await loadLinks();await loadPrintOrders().catch(e=>notice(e.message));}
 $('login-form').addEventListener('submit',async e=>{e.preventDefault();const submit=e.submitter;submit.disabled=true;try{const key=$('management-key').value;$('management-key').value='';await post('session',{key});await load();notice('Signed in.');}catch(e){notice(e.message);}finally{submit.disabled=false;}});
 $('signout').addEventListener('click',async()=>{try{await api('session',{method:'DELETE'});lock();notice('Signed out.');}catch(e){notice(e.message);}});
 $('refresh').addEventListener('click',()=>load().catch(e=>notice(e.message)));$('search').addEventListener('input',render);$('new').addEventListener('click',()=>openEditor());$('cancel').addEventListener('click',()=>{$('editor').hidden=true;});

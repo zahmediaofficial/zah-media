@@ -1,3 +1,4 @@
+import {adminPrints} from './prints.mjs';
 import {codeHash,digest,equal,randomToken} from './security.mjs';
 import {GoogleDriveStorage} from './google-drive.mjs';
 const COOKIE='__Host-zah_admin';
@@ -43,6 +44,7 @@ export function createAdminHandler(deps={}){return async(request,env,json)=>{
   await db.prepare('DELETE FROM admin_sessions WHERE token_hash=?').bind(await digest(cookie)).run();
   return json({ok:true},200,{'Set-Cookie':`${COOKIE}=; Secure; HttpOnly; SameSite=Strict; Path=/; Max-Age=0`});
  }
+ if(path.startsWith('/api/admin/prints'))return adminPrints(request,env,json,deps.storage);
  if(path==='/api/admin/links'&&['GET','POST'].includes(request.method)){
   await db.prepare('CREATE TABLE IF NOT EXISTS studio_links (id TEXT PRIMARY KEY,title TEXT NOT NULL,url TEXT NOT NULL)').run();
   if(request.method==='POST'){
