@@ -1,0 +1,63 @@
+/* Approved coverflow carousel. Styles are limited to the homepage showcase. */
+.zah-home.coverflow-carousel .photo-showcase{margin-top:38px;margin-bottom:20px;padding-top:25px;border-top:1px solid #e5dfd6}
+.coverflow-carousel .showcase-heading{display:block;text-align:center;border:0;padding:0}
+.coverflow-carousel .showcase-heading .eyebrow{font-size:9px;letter-spacing:.18em;color:#89704c}
+.coverflow-carousel .showcase-heading h2{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(37px,4.1vw,57px);font-weight:400;line-height:1.05;letter-spacing:-.03em;margin:12px 0 10px}
+.coverflow-carousel .showcase-heading>p:last-child{font-size:14px;color:#7a746b;margin:0;line-height:1.5}
+.coverflow-carousel .story-choices{display:flex;justify-content:center;gap:9px;align-items:center;margin:25px 0 0;overflow-x:auto;padding:4px 4px 10px;scrollbar-width:thin;scrollbar-color:#d1c6b7 transparent}
+.coverflow-carousel .story-choices button,.coverflow-carousel .story-choices>a{flex-shrink:0;white-space:nowrap;border:1px solid #d2c9bc;border-radius:28px;padding:11px 18px;background:transparent;color:#5c5448;font-family:inherit;font-size:11px;line-height:1.2;transition:background .2s,color .2s,border-color .2s}
+.coverflow-carousel .story-choices button[aria-pressed=true]{background:#302b23;border-color:#302b23;color:#fff}
+.coverflow-carousel .story-choices{scrollbar-width:none}
+.coverflow-carousel .story-choices::-webkit-scrollbar{display:none}
+.coverflow-carousel .story-choices button:hover,.coverflow-carousel .story-choices>a:hover{border-color:#89704c}
+.coverflow-carousel .story-choices>a{padding-left:21px;padding-right:21px;color:#302b23}
+.zah-home.coverflow-carousel .showcase-stage{height:clamp(350px,min(45vw,calc(100svh - 250px)),560px);margin:10px -4vw 0;perspective:none;scroll-margin-top:0}
+.coverflow-carousel .showcase-track{transform-style:flat}
+.coverflow-carousel .showcase-photo{will-change:transform,opacity;backface-visibility:hidden}
+.coverflow-carousel .showcase-photo img{border-radius:19px;object-fit:contain;box-shadow:0 16px 35px -14px #342e2842}
+.coverflow-carousel .showcase-stage:focus-visible{outline:none;box-shadow:none;border-radius:0}
+.coverflow-carousel .showcase-stage:focus-visible:after{content:'';position:absolute;left:15%;right:15%;bottom:1px;border-bottom:2px solid #89704c;z-index:1100;pointer-events:none}
+.coverflow-carousel .showcase-caption{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding-top:9px}
+.coverflow-carousel .showcase-caption-title{display:flex;align-items:start;flex-direction:column;gap:8px}
+.coverflow-carousel #orbit-label{font-family:'Instrument Serif',Georgia,serif;font-size:31px;font-weight:400;letter-spacing:-.02em;line-height:1.15}
+.coverflow-carousel #orbit-label:after{display:none}
+.coverflow-carousel .showcase-category{font-size:9px;letter-spacing:.16em;color:#89704c;margin-bottom:7px}
+.coverflow-carousel #showcase-explore{font-size:11px;align-self:start;margin:0}
+.coverflow-carousel .showcase-navigation{display:flex;gap:10px;align-items:center}
+.coverflow-carousel .showcase-navigation button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #c2b7a8;border-radius:50%;background:white;color:#302b23;transition:background .2s,border-color .2s,transform .2s}
+.coverflow-carousel .showcase-navigation button:hover{background:#f5f1ea;border-color:#89704c;transform:translateY(-2px)}
+.coverflow-carousel .showcase-navigation svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.4}
+.coverflow-carousel .showcase-meta{justify-self:end;display:flex;align-items:end;flex-direction:column;gap:11px;font-size:11px}
+.coverflow-carousel .showcase-meta>div{display:flex;align-items:center;gap:20px}
+.coverflow-carousel .showcase-hint{color:#8a8174;font-size:10px}
+.coverflow-carousel #showcase-pause{font-size:10px;color:#82735e;padding:4px 0;background:none;border:0;border-bottom:1px solid #d8cdbd}
+.coverflow-carousel .showcase-progress{margin-top:24px;background:#e7e1d7}
+.coverflow-carousel .showcase-progress>span{background:#89704c}
+@media(max-width:1000px){.coverflow-carousel .story-choices{justify-content:flex-start}.coverflow-carousel .showcase-caption{gap:15px}.coverflow-carousel .showcase-meta>div{gap:10px;flex-direction:column;align-items:end}}
+@media(max-width:759px){
+ .zah-home.coverflow-carousel .photo-showcase{margin-top:25px;padding-top:24px}
+ .coverflow-carousel .showcase-heading h2{font-size:39px}
+ .coverflow-carousel .showcase-heading>p:last-child{font-size:12px}
+ .coverflow-carousel .story-choices{margin:20px -24px 0;padding:4px 24px 11px;gap:8px}
+ .coverflow-carousel .story-choices button,.coverflow-carousel .story-choices>a{padding:10px 15px;font-size:10px}
+ .zah-home.coverflow-carousel .showcase-stage{height:clamp(350px,110vw,450px);margin:12px -24px 0}
+ .coverflow-carousel .showcase-photo img{border-radius:14px;box-shadow:0 12px 26px -10px #342e2835}
+ .coverflow-carousel .showcase-caption{grid-template-columns:minmax(0,1fr) auto;gap:16px 12px;padding-top:6px}
+ .coverflow-carousel .showcase-caption-title{gap:8px}
+ .coverflow-carousel #orbit-label{font-size:27px}
+ .coverflow-carousel .showcase-navigation{grid-column:2;grid-row:1;gap:7px}
+ .coverflow-carousel .showcase-navigation button{width:40px;height:40px}
+ .coverflow-carousel .showcase-meta{grid-column:1/-1;width:100%;flex-direction:row;justify-content:space-between;align-items:center}
+ .coverflow-carousel .showcase-meta>div{flex-direction:row;gap:18px}
+ .coverflow-carousel .showcase-progress{margin-top:15px}
+}
+@media(prefers-reduced-motion:reduce){.coverflow-carousel .showcase-navigation button,.coverflow-carousel .story-choices button{transition:none}}
+
+.zah-home.coverflow-carousel .photo-showcase,.coverflow-carousel .showcase-stage{background:#fff}
+.coverflow-carousel .photo-showcase .editorial-link{display:inline-flex;align-items:center;gap:20px;font-size:13px;line-height:1.6;border-bottom:1px solid #b7a58b;padding:5px 0;color:#685334;text-decoration:none}
+.coverflow-carousel .photo-showcase .editorial-link:hover{color:#302b23;border-color:#302b23}
+.coverflow-carousel .photo-showcase .editorial-link span[aria-hidden]{transition:transform .2s}
+.coverflow-carousel .photo-showcase .editorial-link:hover span[aria-hidden]{transform:translate(2px,-2px)}
+.coverflow-carousel .photo-showcase #showcase-explore{font-size:11px}
+.coverflow-carousel .showcase-navigation button:disabled{opacity:.4;cursor:default;transform:none}
+@media(prefers-reduced-motion:reduce){.coverflow-carousel .photo-showcase .editorial-link span[aria-hidden]{transition:none}}
