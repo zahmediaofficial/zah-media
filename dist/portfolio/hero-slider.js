@@ -1,4 +1,4 @@
-import { createLayout, wrap } from './hero-layout.mjs?v=coverflow-1';
+import { createLayout, wrap } from './hero-layout.mjs?v=flat-layered-20261024';
 
 const root = new URL('./', import.meta.url);
 const stage = document.getElementById('orbit-stage');
@@ -43,17 +43,17 @@ function render(announce = false) {
   const index = wrap(Math.round(position), photos.length);
   photos.forEach((photo, i) => {
     const item = layout[i];
-    // Full photographs rotate gently into the front plane, without a crop or
-    // an image-to-image dissolve. Only the hidden wrap seam fades away.
+    // Upright photographs share a center line and glide between layered sizes.
+    // Only the hidden wrap seam fades; photographs are never cropped.
     photo.element.style.width = `${photo.baseWidth}px`;
     photo.element.style.height = `${photo.baseHeight}px`;
-    photo.element.style.transform = `translate(-50%, -50%) translate(${item.x}px, ${item.y}px) perspective(${item.perspective}px) translateZ(${item.z}px) rotateY(${item.rotateY}deg) scale(${item.height / photo.baseHeight})`;
+    photo.element.style.transform = `translate(-50%, -50%) translate(${item.x}px, ${item.y}px) scale(${item.height / photo.baseHeight})`;
     photo.element.style.opacity = String(item.opacity);
     photo.element.style.zIndex = String(item.zIndex);
     photo.element.setAttribute('aria-hidden', String(i !== index));
     photo.chip.setAttribute('aria-pressed', String(i === index));
   });
-  step = stage.clientWidth * (compact.matches ? .57 : .22);
+  step = stage.clientWidth * (compact.matches ? .62 : .22);
   if (selected !== index) {
     selected = index;
     title.textContent = photos[index].label;
